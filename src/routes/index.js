@@ -5,12 +5,14 @@ import Home from '../pages/Home';
 import Signup from '~/pages/Signup';
 import Menu from '../pages/Menu';
 import Payment from '../pages/Payment';
+import QRPayment from '../pages/Payment/QRPayment';
 
 // Public routes
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/menu', component: Menu },
     { path: '/payment', component: Payment },
+    { path: '/payment/qr', component: QRPayment },
     { path: '/login', component: Login, layout: LoginLayout },
     { path: '/signup', component: Signup, layout: SignupLayout },
 ];

@@ -35,12 +35,33 @@ const products = [
 function Menu() {
   const [selectedCategory, setSelectedCategory] = useState(categories[1].name); // Sea Food mặc định
   const [cart, setCart] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchError, setShowSearchError] = useState(false);
   const categoriesRef = useRef(null);
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalQty, setModalQty] = useState(1);
   const [cartOpen, setCartOpen] = useState(false);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return;
+
+    const foundProduct = products.find(
+      product => product.name.toLowerCase() === query
+    );
+
+    if (foundProduct) {
+      setSelectedCategory(foundProduct.category);
+      setSearchQuery('');
+      setShowSearchError(false);
+    } else {
+      setShowSearchError(true);
+      setTimeout(() => setShowSearchError(false), 3000);
+    }
+  };
 
   const scrollCategories = (dir) => {
     if (categoriesRef.current) {
@@ -92,18 +113,38 @@ function Menu() {
     <>
       <div className="menu-header-row">
         <div className="header-left">
-          <div className="sidebar-home" onClick={() => navigate('/') } style={{cursor: 'pointer'}}>
+          <div className="sidebar-home" onClick={() => navigate('/')} style={{cursor: 'pointer'}}>
             <span className="material-symbols-outlined sidebar-home-logo">home</span>
             <span className="sidebar-home-text">Back to home</span>
           </div>
         </div>
         <div className="header-right">
+          <form className="search-form" onSubmit={handleSearch}>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search for a dish..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button type="submit" className="search-btn">
+              <span className="material-symbols-outlined">search</span>
+            </button>
+          </form>
           <button className="cart-toggle-btn" onClick={() => setCartOpen(true)}>
             <span className="material-symbols-outlined">shopping_cart</span>
             <span className="cart-toggle-count">{cart.length}</span>
           </button>
         </div>
       </div>
+
+      {showSearchError && (
+        <div className="search-error-message">
+          <span className="material-symbols-outlined">error</span>
+          Dish not found. Please try again.
+        </div>
+      )}
+
       <div className="menu-page">
         <div className="menu-main">
           <div className="menu-categories-bar">

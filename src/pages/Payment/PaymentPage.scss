@@ -238,4 +238,75 @@
 @keyframes modalIn {
   from { transform: translateY(-40px) scale(0.98); opacity: 0; }
   to { transform: none; opacity: 1; }
+}
+
+.payment-method-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-method-modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #0002;
+  padding: 32px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  animation: modalIn 0.2s;
+}
+
+.payment-method-modal h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 24px;
+}
+
+.payment-method-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.payment-method-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.payment-method-btn.card {
+  background: #2d3a4b;
+  color: #fff;
+}
+
+.payment-method-btn.qr {
+  background: #1abc60;
+  color: #fff;
+}
+
+.payment-method-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.payment-method-btn .material-symbols-outlined {
+  font-size: 24px;
 } 

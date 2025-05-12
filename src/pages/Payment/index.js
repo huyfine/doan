@@ -8,6 +8,7 @@ function Payment() {
   const cartTotal = location.state?.cartTotal || 0;
   const [showSuccess, setShowSuccess] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showPaymentMethod, setShowPaymentMethod] = useState(true);
 
   const handlePayment = () => {
     setIsProcessing(true);
@@ -22,6 +23,13 @@ function Payment() {
     }, 1500);
   };
 
+  const handlePaymentMethodSelect = (method) => {
+    setShowPaymentMethod(false);
+    if (method === 'qr') {
+      navigate('/payment/qr', { state: { cartTotal } });
+    }
+  };
+
   return (
     <div className="payment-container">
       {showSuccess && (
@@ -30,6 +38,29 @@ function Payment() {
             <span className="material-symbols-outlined success-icon">check_circle</span>
             <h2>Payment Successful!</h2>
             <p>Thank you for your order</p>
+          </div>
+        </div>
+      )}
+      {showPaymentMethod && (
+        <div className="payment-method-overlay">
+          <div className="payment-method-modal">
+            <h2>Select Payment Method</h2>
+            <div className="payment-method-options">
+              <button 
+                className="payment-method-btn card"
+                onClick={() => handlePaymentMethodSelect('card')}
+              >
+                <span className="material-symbols-outlined">credit_card</span>
+                Credit Card
+              </button>
+              <button 
+                className="payment-method-btn qr"
+                onClick={() => handlePaymentMethodSelect('qr')}
+              >
+                <span className="material-symbols-outlined">qr_code_scanner</span>
+                QR Code
+              </button>
+            </div>
           </div>
         </div>
       )}
