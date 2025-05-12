@@ -9,11 +9,21 @@ function Payment() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showPaymentMethod, setShowPaymentMethod] = useState(true);
+  const [showError, setShowError] = useState(false);
 
   const handlePayment = () => {
     setIsProcessing(true);
+    setShowError(false);
+    
+    // Set timeout for 15 seconds
+    const timeoutId = setTimeout(() => {
+      setIsProcessing(false);
+      setShowError(true);
+    }, 15000);
+
     // Simulate payment processing
     setTimeout(() => {
+      clearTimeout(timeoutId); // Clear the timeout if payment completes before 15 seconds
       setIsProcessing(false);
       setShowSuccess(true);
       // Redirect to home after 2 seconds
@@ -38,6 +48,16 @@ function Payment() {
             <span className="material-symbols-outlined success-icon">check_circle</span>
             <h2>Payment Successful!</h2>
             <p>Thank you for your order</p>
+          </div>
+        </div>
+      )}
+      {showError && (
+        <div className="payment-error-overlay">
+          <div className="payment-error-message">
+            <span className="material-symbols-outlined error-icon">error</span>
+            <h2>Payment Timeout</h2>
+            <p>Payment process took too long. Please try again.</p>
+            <button className="error-retry-btn" onClick={() => setShowError(false)}>Try Again</button>
           </div>
         </div>
       )}
